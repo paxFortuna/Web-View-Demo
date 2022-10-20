@@ -9,6 +9,12 @@
         function myClick() {
             cosole.log('click!!!');
             // alert('클릭');
+            let json = {
+                 "title": "어쩌구",
+                "body": "저쩌구",
+                "id": 10
+            };
+            myChannel.postMessage(JSON.stringify(json));
         }
     </script>
 </head>
