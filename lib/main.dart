@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -42,9 +44,11 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 40),
-      child: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(''),
+      ),
+      body: Column(
         children: [
           Row(
             children: [
@@ -70,13 +74,33 @@ class _AppState extends State<App> {
           ),
           Expanded(
             child: WebView(
-              // initialUrl: 'https://flutter.dev',
-              initialUrl: 'https://naver.com',
-              // naver등 제한 설정된 url 해제하기
+              initialUrl: 'https://ssac-flutter.github.io/webview/test.html',
               javascriptMode: JavascriptMode.unrestricted,
-              // 앱에서 웹뷰 콘트롤러 설정
-              onWebViewCreated: (WebViewController controller) {
+              onWebViewCreated: (controller) {
                 _controller = controller;
+              },
+              // 웹에서 불러온 내용을 가공 set{}
+              javascriptChannels: {
+                JavascriptChannel(
+                  name: 'myChannel',
+                  onMessageReceived: (JavascriptMessage message) {
+                    log(message.message);
+                    Map<String, dynamic> json = jsonDecode(message.message);
+
+                    final snackBar = SnackBar(
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(json['title']),
+                          Text(json['body']),
+                          Text('${json['id']}'),
+                        ],
+                      ),
+                    );
+
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
+                )
               },
             ),
           ),
