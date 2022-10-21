@@ -95,7 +95,8 @@ class _AppState extends State<App> {
               // android/app/debug/ <Intenet permission> Manifest에 등록
               initialUrl: 'https://naver.com',
 
-              // 모든 Http url에 접근: 네이버 처럼 접근 제한된 화면 보여준다.
+              // 모든 Http url에 접근: Cleartext Http not permitted in android
+              // 네이버 처럼 접근 제한된 화면 보여준다.
               // AnroidManifest <application>에 추가
               // android:usesCleartextTraffic="true"
               // 이슈 생기면, 네이티브 안드로이드 웹뷰 자료 참고하여 수정한다
