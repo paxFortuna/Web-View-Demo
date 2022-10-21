@@ -59,23 +59,40 @@ class _AppState extends State<App> {
                 },
                 child: const Text('<-'),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  _controller.goForward();
-                },
-                child: const Text('->'),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    _controller.goForward();
+                  },
+                  child: const Text('->'),
+                ),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  _controller.loadUrl('https://google.com');
-                },
-                child: const Text('google'),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    _controller.loadUrl('https://google.com');
+                  },
+                  child: const Text('google'),
+                ),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  _loadHtmlFromAssets();
-                },
-                child: const Text('assets'),
+              Expanded(
+                child: Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _loadHtmlFromAssets();
+                    },
+                    child: const Text('assets'),
+                  ),
+                ),
+              ),
+
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    _loadHtmlFromAssets_2();
+                  },
+                  child: const Text('calender'),
+                ),
               ),
 
               // loadUrl에 String html 주입: 실행 안 되는 코드, html 수정 필요
@@ -93,7 +110,9 @@ class _AppState extends State<App> {
               // 기본 화면 보여준다
               // compileSdk: 32, minSdk 21
               // android/app/debug/ <Intenet permission> Manifest에 등록
+
               initialUrl: 'https://naver.com',
+              //initialUrl: 'https://github.com/paxFortuna/Web-RentCar1-Jsp/WebContent/BoardIndex.jsp',
 
               // 모든 Http url에 접근: Cleartext Http not permitted in android
               // 네이버 처럼 접근 제한된 화면 보여준다.
@@ -128,7 +147,7 @@ class _AppState extends State<App> {
                           Text(json['body']),
                           Text('${json['id']}'),
                         ],
-                      ),
+                       ),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
@@ -150,14 +169,19 @@ class _AppState extends State<App> {
   }
   // assets/test.html 만든 후 punspec.yaml : assets 추가할 것
   _loadHtmlFromAssets() async {
-    String fileText = await rootBundle.loadString('assets/test.html');
+    String fileText = await rootBundle.loadString("assets/test.html");
     _controller.loadUrl(
       Uri.dataFromString(
         fileText,
-        mimeType: 'text/html',
-        encoding: Encoding.getByName('utf-8'),
+        mimeType: "text/",
+        encoding: Encoding.getByName("utf-"),
       ).toString(),
     );
+  }
+
+  _loadHtmlFromAssets_2() async {
+    String fileText = await rootBundle.loadString("assets/js_calender/index.html");
+    _controller.loadUrl(fileText);
   }
 }
 
