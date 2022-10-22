@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const App(),
+      home: App(),
     );
   }
 }
@@ -59,31 +59,23 @@ class _AppState extends State<App> {
                 },
                 child: const Text('<-'),
               ),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    _controller.goForward();
-                  },
-                  child: const Text('->'),
-                ),
+              ElevatedButton(
+                onPressed: () {
+                  _controller.goForward();
+                },
+                child: const Text('->'),
               ),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    _controller.loadUrl('https://google.com');
-                  },
-                  child: const Text('google'),
-                ),
+              ElevatedButton(
+                onPressed: () {
+                  _controller.loadUrl('https://google.com');
+                },
+                child: const Text('google'),
               ),
-              Expanded(
-                child: Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _loadHtmlFromAssets();
-                    },
-                    child: const Text('assets'),
-                  ),
-                ),
+              ElevatedButton(
+                onPressed: () {
+                  _loadHtmlFromAssets();
+                },
+                child: const Text('assets'),
               ),
 
               Expanded(
@@ -96,12 +88,12 @@ class _AppState extends State<App> {
               ),
 
               // loadUrl에 String html 주입: 실행 안 되는 코드, html 수정 필요
-              ElevatedButton(
-                onPressed: () {
-                  _controller.loadUrl(Uri.dataFromString(html).toString());
-                },
-                child: const Text('html'),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     _controller.loadUrl(Uri.dataFromString(html).toString());
+              //   },
+              //   child: const Text('html'),
+              // ),
             ],
           ),
           Expanded(
@@ -147,26 +139,19 @@ class _AppState extends State<App> {
                           Text(json['body']),
                           Text('${json['id']}'),
                         ],
-                       ),
+                      ),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                 ),
               },
             ),
-            // 아래 웹 코드 이슈 있음음
-            // initialUrl: 'https://ssac-flutter.github.io/webview/',
-            // javascriptChannels: {
-            //                 JavascriptChannel(
-            //                   name: 'myChannel',
-            //                   onMessageReceived: (JavascriptMessage message) {
-            //                     log(message.message);})}
-
           ),
         ],
       ),
     );
   }
+
   // assets/test.html 만든 후 punspec.yaml : assets 추가할 것
   _loadHtmlFromAssets() async {
     String fileText = await rootBundle.loadString("assets/test.html");
@@ -180,35 +165,35 @@ class _AppState extends State<App> {
   }
 
   _loadHtmlFromAssets_2() async {
-    String fileText = await rootBundle.loadString("assets/js_calender/index.html");
-    _controller.loadUrl(fileText);
+    String fileText_2 = await rootBundle.loadString("assets/js_calender/index.html");
+    _controller.loadUrl(Uri.dataFromString(fileText_2).toString());
   }
 }
 
-const html = '''
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script>
-    function myClick() {
-      console.log('click!!');
-
-      var json = {
-        "title": "어쩌구",
-        "body": "저쩌구",
-        "id": 10
-      };
-
-      myChannel.postMessage(JSON.stringify(json));
-    }
-  </script>
-</head>
-<body>
-<button onclick="myClick()">클릭</button>
-</body>
-</html>
-''';
+// const html = '''
+// <!DOCTYPE html>
+// <html lang="en">
+// <head>
+//     <meta charset="UTF-8">
+//     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//     <title>Document</title>
+//     <script>
+//     function myClick() {
+//       console.log('click!!');
+//
+//       var json = {
+//         "title": "어쩌구",
+//         "body": "저쩌구",
+//         "id": 10
+//       };
+//
+//       myChannel.postMessage(JSON.stringify(json));
+//     }
+//   </script>
+// </head>
+// <body>
+// <button onclick="myClick()">클릭</button>
+// </body>
+// </html>
+// ''';
